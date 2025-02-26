@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Global LPA Salary Converter</title>
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=3dwWAQMfwNRk&format=png&color=E9B44C" type="image/png" />
+    
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div id="custom-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <p id="modal-message"></p>
+        <button class="close-button" onclick="closeModal()">OK</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1>Global LPA Salary Converter</h1>
+        <p>
+          Convert your annual salary according to the country currencies,
+          calculate your monthly income, and estimate your taxes in 13 different
+          countries.
+        </p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-button" onclick="openTab(event, 'LPAtoMonthly')">
+          LPA to Monthly
+        </button>
+        <button class="tab-button" onclick="openTab(event, 'MonthlytoLPA')">
+          Monthly to LPA
+        </button>
+      </div>
+
+      <div id="LPAtoMonthly" class="tab-content" style="display: none">
+        <div class="card">
+          <h2>LPA to Monthly Converter</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="lpa-country">Choose Source Country</label>
+              <select id="lpa-country" class="countries-dropdown">
+                <option value="USD">United States ($)</option>
+                <option value="CNY">China (¥)</option>
+                <option value="JPY">Japan (¥)</option>
+                <option value="EUR">Germany (€)</option>
+                <option value="INR">India (₹)</option>
+                <option value="GBP">United Kingdom (£)</option>
+                <option value="CAD">Canada (C$)</option>
+                <option value="AUD">Australia (A$)</option>
+                <option value="BRL">Brazil (R$)</option>
+                <option value="RUB">Russia (₽)</option>
+                <option value="TRY">Turkey (₺)</option>
+                <option value="SAR">Saudi Arabia (SAR)</option>
+                <option value="AED">United Arab Emirates (AED)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="lpa-amount">Annual Salary (LPA*)</label>
+              <div class="input-group" data-currency="">
+                <input
+                  type="number"
+                  id="lpa-amount"
+                  placeholder="Enter amount"
+                />
+              </div>
+            </div>
+          </div>
+          <button id="convert-btn" class="convert-button">
+            Convert Annual Salary
+          </button>
+
+          <div id="results" class="results" style="display: none">
+            <div class="result-item">
+              <span class="result-label">Equivalent Annual Salary:</span>
+              <span class="result-value" id="annual-result">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Monthly Salary (Gross):</span>
+              <span class="result-value" id="monthly-gross">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Estimated Income Tax:</span>
+              <span class="result-value" id="income-tax">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Monthly Salary (Net):</span>
+              <span class="result-value" id="monthly-net">-</span>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span>Exchange rates updated daily</span>
+            <span>Last Updated: Yesterday</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="MonthlytoLPA" class="tab-content" style="display: none">
+        <div class="card">
+          <h2>Monthly to LPA Converter</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="monthly-country">Choose Source Country</label>
+              <select id="monthly-country" class="countries-dropdown">
+                <option value="USD">United States ($)</option>
+                <option value="CNY">China (¥)</option>
+                <option value="JPY">Japan (¥)</option>
+                <option value="EUR">Germany (€)</option>
+                <option value="INR">India (₹)</option>
+                <option value="GBP">United Kingdom (£)</option>
+                <option value="CAD">Canada (C$)</option>
+                <option value="AUD">Australia (A$)</option>
+                <option value="BRL">Brazil (R$)</option>
+                <option value="RUB">Russia (₽)</option>
+                <option value="TRY">Turkey (₺)</option>
+                <option value="SAR">Saudi Arabia (SAR)</option>
+                <option value="AED">United Arab Emirates (AED)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="monthly-amount">Monthly Salary</label>
+              <div class="input-group" data-currency="">
+                <input
+                  type="number"
+                  id="monthly-amount"
+                  placeholder="Enter amount"
+                />
+              </div>
+            </div>
+          </div>
+          <button id="monthly-convert-btn" class="convert-button">
+            Convert Monthly Salary
+          </button>
+
+          <div id="monthly-results" class="results" style="display: none">
+            <div class="result-item">
+              <span class="result-label">Equivalent Annual Salary:</span>
+              <span class="result-value" id="lpa-annual-result">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Lacks Per Annum (Gross):</span>
+              <span class="result-value" id="lpa-gross">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Estimated Income Tax:</span>
+              <span class="result-value" id="lpa-income-tax">-</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Lacks Per Annum (Net):</span>
+              <span class="result-value" id="lpa-net">-</span>
+            </div>
+
+
+          </div>
+
+          <div class="card-footer">
+            <span>Tax rates updated quarterly</span>
+            <span>Last Updated: Feb 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>
+          * Please note that this calculator provides simplified estimates and
+          should not be used for official finance planning. Tax calculations are
+          complex and may vary depending on individual circumstances.
+        </p>
+        <p>* 1 Lakh = 100,000 units of currency. LPA = Lakhs Per Annum</p>
+        <br />
+        <p>
+          Made by
+          <a
+            style="color: #e9b44c; text-decoration: none"
+            href="https://github.com/farisshamsudeen"
+            >Faris Shamsudeen</a
+          >
+          with
+          <span aria-label="heart emoji" role="img">❤️</span>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function openTab(evt, tabName) {
+        const tabContents = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabContents.length; i++) {
+          tabContents[i].style.display = "none";
+        }
+        const tabButtons = document.getElementsByClassName("tab-button");
+        for (let i = 0; i < tabButtons.length; i++) {
+          tabButtons[i].className = tabButtons[i].className.replace(
+            " active",
+            ""
+          );
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      // Initialize by opening the first tab
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector(".tab-button").click();
+      });
+    </script>
+  </body>
+</html>
